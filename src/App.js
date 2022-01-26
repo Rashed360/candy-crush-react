@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 
 const width = 8
+const imgSize = 70
+const boardSize = width*imgSize
 const candyColors = [
   'red',
   'green',
@@ -12,6 +14,12 @@ const candyColors = [
 
 const App = () => {
   const [currentColorArrangement, setcurrentColorArrangement] = useState([])
+
+  const check = () => {
+    for (let i = 0; i < (width*width-2)-1; i++) {
+
+    }
+  }
 
   const createBoard = () => {
     const randomColorArangement = []
@@ -31,9 +39,9 @@ const App = () => {
 
   return (
     <div className="app">
-      <div className="game">
+      <div className="game" style={{height:boardSize,width:boardSize}}>
         {currentColorArrangement.map((candyColor, index) => (
-          <img key={index} style={{backgroundColor:candyColor}}/>
+          <img width={imgSize+'px'} height={imgSize+'px'} key={index} src={"/img/"+candyColor+".png"}/>
         ))}
       </div>
     </div>

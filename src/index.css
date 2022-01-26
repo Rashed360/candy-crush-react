@@ -3,12 +3,10 @@
   padding: 30px;
 }
 .game {
-  width: 560px;
-  height: 560px;
   display: flex;
   flex-wrap: wrap;
+  border: 5px solid #063b39;
 }
 .game img {
-  width: 70px;
-  height: 70px;
+  background-color: #115d59;
 }
