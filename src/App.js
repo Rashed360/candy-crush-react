@@ -15,8 +15,14 @@ const candyColors = [
 const App = () => {
   const [currentColorArrangement, setcurrentColorArrangement] = useState([])
 
-  const check = () => {
+  const checkForColumnOfThree = () => {
     for (let i = 0; i < (width*width-2)-1; i++) {
+      const columnOfThree = [i, i+width, i+width*2]
+      const decidedColor = currentColorArrangement[i]
+
+      if (columnOfThree.every(color => currentColorArrangement[color] === decidedColor)) {
+        columnOfThree.forEach(color => currentColorArrangement[color] = '_')
+      }
 
     }
   }
@@ -33,6 +39,14 @@ const App = () => {
   useEffect(() => {
     createBoard()
   }, [])
+
+  useEffect(() => {
+    const timer = setInterval(()=>{
+      checkForColumnOfThree()
+      setcurrentColorArrangement([...currentColorArrangement])
+    }, 500)
+    return () => clearInterval(timer)
+  }, [checkForColumnOfThree, currentColorArrangement])
   
   console.log(currentColorArrangement)
   
@@ -41,7 +55,7 @@ const App = () => {
     <div className="app">
       <div className="game" style={{height:boardSize,width:boardSize}}>
         {currentColorArrangement.map((candyColor, index) => (
-          <img width={imgSize+'px'} height={imgSize+'px'} key={index} src={"/img/"+candyColor+".png"}/>
+          <img width={imgSize+'px'} height={imgSize+'px'} key={index} src={"/img/"+candyColor+".png"} alt={candyColor} />
         ))}
       </div>
     </div>
