@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const width = 7
+const width = 8
 const imgSize = 70
 const boardSize = width*imgSize
 const candyColors = [
@@ -21,7 +21,7 @@ const App = () => {
       const decidedColor = currentColorArrangement[i]
 
       if (columnOfFour.every(color => currentColorArrangement[color] === decidedColor)) {
-        columnOfFour.forEach(color => currentColorArrangement[color] = '_')
+        columnOfFour.forEach(color => currentColorArrangement[color] = '')
       }
 
     }
@@ -33,7 +33,35 @@ const App = () => {
       const decidedColor = currentColorArrangement[i]
 
       if (columnOfThree.every(color => currentColorArrangement[color] === decidedColor)) {
-        columnOfThree.forEach(color => currentColorArrangement[color] = '_')
+        columnOfThree.forEach(color => currentColorArrangement[color] = '')
+      }
+
+    }
+  }
+
+  const checkForRowOfFour = () => {
+    let threeLast = width-3
+    let twoLast = width-2
+    let oneLast = width-1
+    for (let i = 0; i < (width*width)-1; i++) {
+      const rowOfFour = [i, i+1, i+2, i+3]
+      const decidedColor = currentColorArrangement[i]
+      
+      if (i=== threeLast) {
+        threeLast+=width
+        continue
+      }
+      if (i=== twoLast) {
+        twoLast+=width
+        continue
+      }
+      if (i === oneLast) {
+        oneLast+=width
+        continue
+      }
+
+      if (rowOfFour.every(color => currentColorArrangement[color] === decidedColor)) {
+        rowOfFour.forEach(color => currentColorArrangement[color] = '')
       }
 
     }
@@ -43,7 +71,7 @@ const App = () => {
     let twoLast = width-2
     let oneLast = width-1
     for (let i = 0; i < (width*width)-1; i++) {
-      const eowOfThree = [i, i+1, i+2]
+      const rowOfThree = [i, i+1, i+2]
       const decidedColor = currentColorArrangement[i]
       
       if (i=== twoLast) {
@@ -55,8 +83,19 @@ const App = () => {
         continue
       }
 
-      if (eowOfThree.every(color => currentColorArrangement[color] === decidedColor)) {
-        eowOfThree.forEach(color => currentColorArrangement[color] = '_')
+      if (rowOfThree.every(color => currentColorArrangement[color] === decidedColor)) {
+        rowOfThree.forEach(color => currentColorArrangement[color] = '')
+      }
+
+    }
+  }
+
+  const moveIntoSquareBelow = () => {
+    for (let i = 0; i < width*width-width; i++) {
+      
+      if(currentColorArrangement[i + width] === '') {
+        currentColorArrangement[i + width] = currentColorArrangement[i]
+        currentColorArrangement[i] = ''
       }
 
     }
@@ -76,14 +115,23 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const timer = setInterval(()=>{
+    const timer = setInterval(() => {
       checkForColumnOfFour()
       checkForColumnOfThree()
+      checkForRowOfFour()
       checkForRowOfThree()
+      moveIntoSquareBelow()
       setcurrentColorArrangement([...currentColorArrangement])
     }, 500)
     return () => clearInterval(timer)
-  }, [ checkForColumnOfFour, checkForColumnOfThree, checkForRowOfThree, currentColorArrangement])
+  },
+  [ checkForColumnOfFour, 
+    checkForColumnOfThree, 
+    checkForRowOfFour, 
+    checkForRowOfThree, 
+    moveIntoSquareBelow, 
+    currentColorArrangement
+  ])
   
   console.log(currentColorArrangement)
   
@@ -92,7 +140,12 @@ const App = () => {
     <div className="app">
       <div className="game" style={{height:boardSize,width:boardSize}}>
         {currentColorArrangement.map((candyColor, index) => (
-          <img width={imgSize+'px'} height={imgSize+'px'} key={index} src={"/img/"+candyColor+".png"} alt={candyColor} />
+          <img 
+            width={imgSize+"px"} 
+            height={imgSize+"px"} 
+            key={index} 
+            src={"/img/"+(candyColor ? candyColor : "_")+".png"} 
+            alt={candyColor} />
         ))}
       </div>
     </div>
