@@ -5,7 +5,8 @@
 .game {
   display: flex;
   flex-wrap: wrap;
-  border: 5px solid #063b39;
+  border: 3px solid #063b39;
+  border-radius: 5px;
 }
 .game img {
   background-color: #115d59;
