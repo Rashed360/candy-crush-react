@@ -1,6 +1,5 @@
 .app {
-  display: flex;
-  padding: 30px;
+  padding: 10px;
 }
 .game {
   display: flex;
@@ -10,4 +9,19 @@
 }
 .game img {
   background-color: #115d59;
+}
+.score-board {
+  margin: 10px 0px;
+  padding: 5px 0px;
+  font-family: sans-serif;
+  border: 1px solid orange;
+}
+.score {
+  margin-left: 10px;
+}
+.bar {
+  margin-bottom: -5px;
+  margin-top: -23px;
+  height: 25px;
+  background-color: greenyellow;
 }
